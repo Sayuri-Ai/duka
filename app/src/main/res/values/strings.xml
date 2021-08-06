@@ -19,4 +19,10 @@
     <string name="dont_have_account">Don\'t have an account yet ?</string>
     <string name="login_hint">Enter your email and password to login</string>
     <string name="login_to_duka">Login to Duka!</string>
+    <string name="enter_verification_code">Enter Confirmation Code</string>
+    <string name="code_hint">Verification code has been sent to your phone number</string>
+    <string name="confirmation_code">Confirmation code</string>
+    <string name="select_service">Select Service</string>
+    <string name="select_service_hint">If you want to sell your services or products on this platform please do select below.</string>
+    <string name="photography">Photography</string>
 </resources>
