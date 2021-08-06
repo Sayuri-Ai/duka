@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fragments.ChooseServiceFragment">
+    tools:context=".fragments.ChooseProductFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/select_service"
+                android:text="@string/select_prouct_category"
                 android:textColor="@color/primary"
                 android:textSize="28sp" />
 
@@ -38,7 +38,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="16dp"
                 android:gravity="center"
-                android:text="@string/choose_service_hint"
+                android:text="@string/choose_product_hint"
                 android:textColor="#333"
                 android:textSize="15sp" />
 
@@ -53,7 +53,7 @@
                 android:layout_marginTop="10dp"
                 android:orientation="vertical">
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/service_list"
+                    android:id="@+id/product_list"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </LinearLayout>

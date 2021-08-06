@@ -44,6 +44,9 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:28.3.0')
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-auth'
+    implementation 'com.google.firebase:firebase-database'
+    implementation 'com.google.firebase:firebase-storage'
+    implementation 'com.firebaseui:firebase-ui-database'
 
     //material ui
     implementation 'com.google.android.material:material:1.5.0-alpha01'

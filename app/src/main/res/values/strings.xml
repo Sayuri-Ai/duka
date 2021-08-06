@@ -25,4 +25,9 @@
     <string name="select_service">Select Service</string>
     <string name="select_service_hint">If you want to sell your services or products on this platform please do select below.</string>
     <string name="photography">Photography</string>
+    <string name="choose_service_hint">Select all services that you offer</string>
+    <string name="electronics">Electronics</string>
+    <string name="select_product">Select Product Type</string>
+    <string name="choose_product_hint">Select all product categories that you provide</string>
+    <string name="select_prouct_category">Select Product Category</string>
 </resources>

@@ -11,4 +11,7 @@
     <string name="have_account">Already have an account ?</string>
     <string name="login">Login</string>
     <string name="login_to_duka">Login to Duka!</string>
+    <string name="choose_service_hint">Choose all services that you offer</string>
+    <string name="electronics">Electronics</string>
+    <string name="choose_product_hint">Select all product categories that you provide</string>
 </resources>

@@ -6,26 +6,23 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.sayuriai.duka.R;
-import com.sayuriai.duka.adapters.ServicesAdapter;
+import com.sayuriai.duka.adapters.ProductsAdapter;
+import com.sayuriai.duka.models.Product;
 import com.sayuriai.duka.models.Service;
-import com.sayuriai.duka.utils.ServicesList;
+import com.sayuriai.duka.utils.ProductsList;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +31,10 @@ import java.util.Set;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ChooseServiceFragment#newInstance} factory method to
+ * Use the {@link ChooseProductFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ChooseServiceFragment extends Fragment {
+public class ChooseProductFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -47,10 +44,10 @@ public class ChooseServiceFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private List<Service> servicesList = new ArrayList<>();
-    private DatabaseReference servicesRef, usersRef;
+    private List<Product> productsList = new ArrayList<>();
+    private DatabaseReference productsRef, usersRef;
 
-    public ChooseServiceFragment() {
+    public ChooseProductFragment() {
         // Required empty public constructor
     }
 
@@ -60,11 +57,11 @@ public class ChooseServiceFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ChooseServiceFragment.
+     * @return A new instance of fragment ChooseProductFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ChooseServiceFragment newInstance(String param1, String param2) {
-        ChooseServiceFragment fragment = new ChooseServiceFragment();
+    public static ChooseProductFragment newInstance(String param1, String param2) {
+        ChooseProductFragment fragment = new ChooseProductFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -85,45 +82,42 @@ public class ChooseServiceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_choose_service, container, false);
+        return inflater.inflate(R.layout.fragment_choose_product, container, false);
     }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).show();
 
         Activity activity = getActivity();
-        if(servicesList.size() == 0){
-            servicesList = new ServicesList().getServicesList();
+        if(productsList.size() == 0){
+            productsList = new ProductsList().getproductsList();
         }
-        ServicesAdapter serviceAdapter = new ServicesAdapter(getContext(), servicesList);
-        RecyclerView recyclerView = view.findViewById(R.id.service_list);
+        ProductsAdapter productsAdapter = new ProductsAdapter(getContext(), productsList);
+        RecyclerView recyclerView = view.findViewById(R.id.product_list);
 
 
         recyclerView.setHasFixedSize ( true );
         GridLayoutManager layoutManager = new GridLayoutManager ( getContext(), 2,GridLayoutManager.VERTICAL, false );
         recyclerView.setLayoutManager ( layoutManager );
-        recyclerView.setAdapter(serviceAdapter);
+        recyclerView.setAdapter(productsAdapter);
 
         Button signupButton = view.findViewById(R.id.signup);
-        servicesRef = FirebaseDatabase.getInstance().getReference().child("Services");
+        productsRef = FirebaseDatabase.getInstance().getReference().child("Services");
         usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 //  Save the data to the database and transition to home page
-                Set<Service> chosenServices = serviceAdapter.getChosenServices();
-                for(Service service: chosenServices){
-                    String child = service.getName();
+                Set<Product> chosenProducts = productsAdapter.getChosenProducts();
+                for(Product product: chosenProducts){
+                    String child = product.getName();
                     usersRef.child("currentUserID").child("Services").child(child).setValue(null);
                 }
 
                 //  Transition to home page
             }
         });
-
-
     }
 }
