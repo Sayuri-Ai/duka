@@ -1,8 +1,10 @@
-package com.sayuriai.duka;
+package com.sayuriai.duka.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.sayuriai.duka.R;
 
 public class MainActivity extends AppCompatActivity {
 

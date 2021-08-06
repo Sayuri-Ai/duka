@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1026263591704",
+    "project_id": "duka-8e195",
+    "storage_bucket": "duka-8e195.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1026263591704:android:d9a8c28cfccf7d36f30c6d",
+        "android_client_info": {
+          "package_name": "com.sayuriai.duka"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1026263591704-q1a9kdjbg4ujb1p773rchtvlr87n9e6s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sayuriai.duka",
+            "certificate_hash": "7a9f9258dada66fbff5a8855af3f3690b3472f4c"
+          }
+        },
+        {
+          "client_id": "1026263591704-iuv6eus3630m8iqu4hlu9j29g4g6gnkm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyGMVr0-W1AXN9MvhsTGtE1s89fHUobUE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1026263591704-iuv6eus3630m8iqu4hlu9j29g4g6gnkm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
