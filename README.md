@@ -1,5 +1,15 @@
-Team Name : Sayuri
-Old Project Name: Sayuri e-shop -> New Project Name: Duka
+Team Name : 
+    
+    Sayuri   
+    
+Old Project Name: 
+
+    Sayuri e-shop
+  
+New Project Name: 
+
+    Duka
+    
 App Description:
     
     Based on my past 5 years on the campus space, I have seen many students run small businesses that 
@@ -18,7 +28,9 @@ App Description:
     students in various institutions. In this platform students can showcase the various services that they provide 
     or products that they sell. Students are then able to place orders on the platform for product sales or 
     book appointments for services.
+    
 Team Members:
     
     Dancan Angwenyi (Team Lead)
-    
+    Arthur Adinda
+    Yonelisa Gudwana

@@ -100,5 +100,7 @@ public class ChooseServiceFragment extends Fragment {
         GridLayoutManager layoutManager = new GridLayoutManager ( getContext(), 2,GridLayoutManager.VERTICAL, false );
         recyclerView.setLayoutManager ( layoutManager );
         recyclerView.setAdapter(serviceAdapter);
+
+
     }
 }
