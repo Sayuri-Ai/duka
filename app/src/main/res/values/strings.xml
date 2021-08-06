@@ -15,4 +15,8 @@
     <string name="have_account">Already have an account ?</string>
     <string name="login">Login</string>
     <string name="next">Next</string>
+    <string name="signup">Signup</string>
+    <string name="dont_have_account">Don\'t have an account yet ?</string>
+    <string name="login_hint">Enter your email and password to login</string>
+    <string name="login_to_duka">Login to Duka!</string>
 </resources>
