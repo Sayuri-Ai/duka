@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,6 +50,8 @@ public class ChooseServiceFragment extends Fragment {
     private String mParam2;
     private List<Service> servicesList = new ArrayList<>();
     private DatabaseReference servicesRef, usersRef;
+    private FirebaseAuth mAuth;
+    private  String currentUserID;
 
     public ChooseServiceFragment() {
         // Required empty public constructor
@@ -91,24 +94,26 @@ public class ChooseServiceFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).show();
 
-        Activity activity = getActivity();
+        mAuth = FirebaseAuth.getInstance();
+        currentUserID = mAuth.getUid();
+        assert currentUserID != null;
+        servicesRef = FirebaseDatabase.getInstance().getReference().child("Services");
+        usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID);
+
+        Button signupButton = view.findViewById(R.id.signup);
+        RecyclerView recyclerView = view.findViewById(R.id.service_list);
+
         if(servicesList.size() == 0){
             servicesList = new ServicesList().getServicesList();
         }
+
         ServicesAdapter serviceAdapter = new ServicesAdapter(getContext(), servicesList);
-        RecyclerView recyclerView = view.findViewById(R.id.service_list);
-
-
         recyclerView.setHasFixedSize ( true );
         GridLayoutManager layoutManager = new GridLayoutManager ( getContext(), 2,GridLayoutManager.VERTICAL, false );
         recyclerView.setLayoutManager ( layoutManager );
         recyclerView.setAdapter(serviceAdapter);
 
-        Button signupButton = view.findViewById(R.id.signup);
-        servicesRef = FirebaseDatabase.getInstance().getReference().child("Services");
-        usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,10 +122,10 @@ public class ChooseServiceFragment extends Fragment {
                 Set<Service> chosenServices = serviceAdapter.getChosenServices();
                 for(Service service: chosenServices){
                     String child = service.getName();
-                    usersRef.child("currentUserID").child("Services").child(child).setValue(null);
+                    usersRef.child("Catalog").child("Services").child(child).setValue(null);
                 }
-
                 //  Transition to home page
+                Navigation.findNavController(view).navigate(R.id.action_nav_choose_service_to_nav_home);
             }
         });
 

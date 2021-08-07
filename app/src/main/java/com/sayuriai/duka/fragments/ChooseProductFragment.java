@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.sayuriai.duka.R;
@@ -46,6 +48,8 @@ public class ChooseProductFragment extends Fragment {
     private String mParam2;
     private List<Product> productsList = new ArrayList<>();
     private DatabaseReference productsRef, usersRef;
+    private FirebaseAuth mAuth;
+    private  String currentUserID;
 
     public ChooseProductFragment() {
         // Required empty public constructor
@@ -87,36 +91,39 @@ public class ChooseProductFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).show();
+
+        mAuth = FirebaseAuth.getInstance();
+        currentUserID = mAuth.getUid();
+        assert currentUserID != null;
+        productsRef = FirebaseDatabase.getInstance().getReference().child("Products");
+        usersRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUserID);
+
+        Button nextButton = view.findViewById(R.id.next);
+        RecyclerView recyclerView = view.findViewById(R.id.product_list);
 
         Activity activity = getActivity();
         if(productsList.size() == 0){
             productsList = new ProductsList().getproductsList();
         }
         ProductsAdapter productsAdapter = new ProductsAdapter(getContext(), productsList);
-        RecyclerView recyclerView = view.findViewById(R.id.product_list);
-
 
         recyclerView.setHasFixedSize ( true );
         GridLayoutManager layoutManager = new GridLayoutManager ( getContext(), 2,GridLayoutManager.VERTICAL, false );
         recyclerView.setLayoutManager ( layoutManager );
         recyclerView.setAdapter(productsAdapter);
 
-        Button signupButton = view.findViewById(R.id.signup);
-        productsRef = FirebaseDatabase.getInstance().getReference().child("Services");
-        usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
-        signupButton.setOnClickListener(new View.OnClickListener() {
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 //  Save the data to the database and transition to home page
                 Set<Product> chosenProducts = productsAdapter.getChosenProducts();
                 for(Product product: chosenProducts){
-                    String child = product.getName();
-                    usersRef.child("currentUserID").child("Services").child(child).setValue(null);
+                    String product_category = product.getName();
+                    usersRef.child("Catalog").child("Products").child(product_category).setValue(null);
                 }
-
-                //  Transition to home page
+                //  Transition to services page
+                Navigation.findNavController(view).navigate(R.id.action_nav_choose_product_to_nav_choose_service);
             }
         });
     }
