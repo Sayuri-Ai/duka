@@ -46,10 +46,11 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-database'
     implementation 'com.google.firebase:firebase-storage'
-    implementation 'com.firebaseui:firebase-ui-database'
 
     //google play services
     implementation 'com.google.android.gms:play-services-auth:19.2.0'
+    implementation "com.google.android.gms:play-services-wallet:18.1.3"
+
 
     //material ui
     implementation 'com.google.android.material:material:1.5.0-alpha01'
@@ -69,6 +70,4 @@ dependencies {
     //Emoticions
     implementation 'androidx.emoji:emoji:1.1.0'
 
-    //view pager indicator library
-    implementation 'com.github.JakeWharton:ViewPagerIndicator:2.4.1'
 }
