@@ -5,14 +5,19 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.AuthResult;
@@ -97,6 +102,23 @@ public class LoginFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        TextInputEditText emailEdit = view.findViewById(R.id.email);
+        TextInputEditText passwordEdit = view.findViewById(R.id.password);
+        Button login = view.findViewById(R.id.login);
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = Objects.requireNonNull(emailEdit.getText()).toString();
+                String password = Objects.requireNonNull(passwordEdit.getText()).toString();
+                if(TextUtils.isEmpty(email)){
+                    Toast.makeText(requireContext(),"Please type your email address",Toast.LENGTH_SHORT).show();
+                }else if(TextUtils.isEmpty(password)){
+                    Toast.makeText(requireContext(),"Please type your password",Toast.LENGTH_SHORT).show();
+                }else{
+                    signIn(email,password,view);
+                }
+            }
+        });
         // [START initialize_auth]
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -151,6 +173,30 @@ public class LoginFragment extends Fragment {
 
 
     }
+
+    private void signIn(String email, String password, View view) {
+        // [START sign_in_with_email]
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(requireActivity(), new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithEmail:success");
+                            Navigation.findNavController(view).navigate(R.id.action_nav_login_to_nav_home);
+
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Toast.makeText(requireContext(), "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                });
+        // [END sign_in_with_email]
+    }
+
 
     private void startPhoneNumberVerification(String phoneNumber) {
         // [START start_phone_auth]
