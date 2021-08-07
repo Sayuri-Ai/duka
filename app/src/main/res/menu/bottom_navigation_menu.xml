@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/navigation_home"
+        android:id="@+id/nav_home"
         android:icon="@drawable/ic_baseline_home_24"
         android:title="@string/home" />
     <item
-        android:id="@+id/navigation_healthy"
+        android:id="@+id/nav_healthy"
         android:icon="@drawable/ic_baseline_eco_24"
-        android:title="@string/orders" />
+        android:title="@string/healthy" />
     <item
-        android:id="@+id/navigation_orders"
+        android:id="@+id/nav_orders"
         android:icon="@drawable/ic_baseline_local_offer_24"
         android:title="@string/orders" />
     <item
-        android:id="@+id/navigation_quotes"
+        android:id="@+id/nav_quotes"
         android:icon="@drawable/ic_baseline_request_quote_24"
         android:title="@string/quotes" />
 </menu>

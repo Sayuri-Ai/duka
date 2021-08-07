@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.sayuriai.duka.fragments.HomeFragment"
+        android:label="@string/home"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_nav_home_to_nav_login"
+            app:destination="@id/nav_login" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_login"
+        android:name="com.sayuriai.duka.fragments.LoginFragment"
+        android:label="@string/login"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_nav_login_to_nav_signup"
+            app:destination="@id/nav_signup" />
+        <action
+            android:id="@+id/action_nav_login_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_signup"
+        android:name="com.sayuriai.duka.fragments.SignupFragment"
+        android:label="@string/signup"
+        tools:layout="@layout/fragment_signup">
+        <action
+            android:id="@+id/action_nav_signup_to_nav_login"
+            app:destination="@id/nav_login" />
+        <action
+            android:id="@+id/action_nav_signup_to_nav_confirmation_code"
+            app:destination="@id/nav_confirmation_code" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_choose_product"
+        android:name="com.sayuriai.duka.fragments.ChooseProductFragment"
+        android:label="@string/choose_product_hint"
+        tools:layout="@layout/fragment_choose_product">
+        <action
+            android:id="@+id/action_nav_choose_product_to_nav_choose_service"
+            app:destination="@id/nav_choose_service" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_choose_service"
+        android:name="com.sayuriai.duka.fragments.ChooseServiceFragment"
+        android:label="@string/choose_service_hint"
+        tools:layout="@layout/fragment_choose_service">
+        <action
+            android:id="@+id/action_nav_choose_service_to_nav_home"
+            app:destination="@id/nav_home" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_confirmation_code"
+        android:name="com.sayuriai.duka.fragments.ConfirmationCodeFragment"
+        android:label="@string/confirmation_code"
+        tools:layout="@layout/fragment_confirmation_code">
+        <action
+            android:id="@+id/action_nav_confirmation_code_to_nav_choose_product"
+            app:destination="@id/nav_choose_product" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_catalog"
+        android:name="com.sayuriai.duka.fragments.CatalogFragment"
+        android:label="@string/catalog"
+        tools:layout="@layout/fragment_catalog">
+    </fragment>
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.sayuriai.duka.fragments.ProfileFragment"
+        android:label="@string/profile"
+        tools:layout="@layout/fragment_profile" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.sayuriai.duka.fragments.SettingsFragment"
+        android:label="@string/settings"
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_nav_settings_to_nav_profile"
+            app:destination="@id/nav_profile" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_healthy"
+        android:name="com.sayuriai.duka.fragments.HealthyFragment"
+        android:label="@string/healthy"
+        tools:layout="@layout/fragment_healthy" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_orders"
+        android:name="com.sayuriai.duka.fragments.OrdersFragment"
+        android:label="@string/orders"
+        tools:layout="@layout/fragment_orders" >
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_quotes"
+        android:name="com.sayuriai.duka.fragments.QuotesFragment"
+        android:label="@string/quotes"
+        tools:layout="@layout/fragment_quotes" >
+    </fragment>
+
+
+
+
+
+
+
+</navigation>

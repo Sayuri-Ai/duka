@@ -37,4 +37,13 @@
     <string name="quotes">Quotes</string>
     <string name="orders">Orders</string>
     <string name="fullname">Fullname</string>
+    <string name="products">Products</string>
+    <string name="services">Services</string>
+    <string name="popular">Popular</string>
+    <string name="ipsum">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English</string>
+    <string name="sponsored_product_or_service_image">sponsored_product_or_service_image</string>
+    <string name="view_all">view all</string>
+    <string name="firstname">Name</string>
+    <string name="surname">Surname</string>
+    <string name="healthy">Healthy</string>
 </resources>
