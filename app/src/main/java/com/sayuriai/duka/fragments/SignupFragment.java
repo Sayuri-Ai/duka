@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -58,6 +60,7 @@ public class SignupFragment extends Fragment {
     TextInputEditText mName, mSurname, mEmail, mPhone, mPassword, mConfirmPassword;
     Button next;
     private DatabaseReference usersRef;
+    TextView login;
 
     private ProgressDialog loadingBar;
     private ProgressBar progressBar;
@@ -103,7 +106,7 @@ public class SignupFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).hide();
         mAuth = FirebaseAuth.getInstance();
         mName = view.findViewById(R.id.firstname);
         mSurname = view.findViewById(R.id.surname);
@@ -113,6 +116,15 @@ public class SignupFragment extends Fragment {
         mConfirmPassword =  view.findViewById(R.id.confirm_password);
         next =  view.findViewById(R.id.next);
         usersRef = FirebaseDatabase.getInstance ().getReference ().child ("Users");
+        login = view.findViewById(R.id.login);
+        loadingBar = new ProgressDialog(requireContext());
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(view).navigate(R.id.action_nav_signup_to_nav_login);
+            }
+        });
 
 
 
@@ -162,12 +174,6 @@ public class SignupFragment extends Fragment {
             Toast.makeText(requireContext(), "Password and confirm password does not match", Toast.LENGTH_SHORT).show();
         }
         else{
-            loadingBar.setTitle("Creating New Account");
-            loadingBar.setMessage("Please wait, while we are create your account...");
-            loadingBar.show();
-            loadingBar.setCanceledOnTouchOutside(true);
-            createAccount(email,password);
-
             Calendar calFordDate = Calendar.getInstance();
             SimpleDateFormat currentDate = new SimpleDateFormat("dd-MMMM-yyyy");
             String date = currentDate.format(calFordDate.getTime());
@@ -180,28 +186,16 @@ public class SignupFragment extends Fragment {
             userMap.put("phonenumber", phone);
             userMap.put("date",date);
 
-            FirebaseUser user = mAuth.getCurrentUser();
-            assert user != null;
-            String currentUserID = user.getUid();
-            usersRef.child(currentUserID).updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
-                @Override
-                public void onComplete(@NonNull Task task) {
-                    if (task.isSuccessful()) {
-                        //proceed to the next fragment to get OTP
-                        Navigation.findNavController(view).navigate(R.id.action_nav_signup_to_nav_confirmation_code);
-
-                    } else {
-                        String message = task.getException().getMessage();
-                        Toast.makeText(requireContext(), "Error occurred while saving data: " + message, Toast.LENGTH_LONG).show();
-
-                    }
-                }
-            });
+            loadingBar.setTitle("Creating New Account");
+            loadingBar.setMessage("Please wait, while we are create your account...");
+            loadingBar.show();
+            loadingBar.setCanceledOnTouchOutside(true);
+            createAccount(email,password,userMap,view);
         }
 
 
     }
-    private void createAccount(String email, String password) {
+    private void createAccount(String email, String password, HashMap<String, Object> userMap, View view) {
         // [START create_user_with_email]
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(requireActivity(), new OnCompleteListener<AuthResult>() {
@@ -213,12 +207,31 @@ public class SignupFragment extends Fragment {
                             Toast.makeText(requireContext(), "Account created successfully", Toast.LENGTH_SHORT).show();
                             sendEmailVerification();
                             Log.d(TAG, "createUserWithEmail:success");
+                            System.out.println("SUCCESS");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            assert user != null;
+                            String currentUserID = user.getUid();
+                            usersRef.child(currentUserID).updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
+                                @Override
+                                public void onComplete(@NonNull Task task) {
+                                    if (task.isSuccessful()) {
+                                        //proceed to the next fragment to get OTP
+                                        Navigation.findNavController(view).navigate(R.id.action_nav_signup_to_nav_confirmation_code);
+
+                                    } else {
+                                        String message = task.getException().getMessage();
+                                        Toast.makeText(requireContext(), "Error occurred while saving data: " + message, Toast.LENGTH_LONG).show();
+
+                                    }
+                                }
+                            });
                         } else {
                             // If sign in fails, display a message to the user.
                             loadingBar.dismiss();
                             Log.w(TAG, "createUserWithEmail:failure", task.getException());
                             Toast.makeText(requireContext(), "Authentication failed.",
                                     Toast.LENGTH_SHORT).show();
+                            System.out.println("FAILURE");
                         }
                     }
                 });
@@ -257,7 +270,8 @@ public class SignupFragment extends Fragment {
                 .addOnCompleteListener(requireActivity(), new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        // Email sent
+                        Toast.makeText(requireContext(), "Verification email sent",
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
         // [END send_email_verification]

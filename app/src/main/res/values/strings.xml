@@ -46,4 +46,8 @@
     <string name="firstname">Name</string>
     <string name="surname">Surname</string>
     <string name="healthy">Healthy</string>
+    <string name="logout">Logout</string>
+    <string name="logged_out">Logged Out</string>
+    <string name="logout_hint">Logged out successfully</string>
+    <string name="resend_verification_code">Resend verification code</string>
 </resources>

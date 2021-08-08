@@ -4,14 +4,18 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -57,6 +61,7 @@ public class ConfirmationCodeFragment extends Fragment {
     // [START declare_auth]
     private FirebaseAuth mAuth;
     private DatabaseReference usersRef;
+    TextView resend;
 
     // [END declare_auth]
 
@@ -106,19 +111,20 @@ public class ConfirmationCodeFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).hide();
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
         String currentUserID = mAuth.getUid();
         assert currentUserID != null;
         usersRef = FirebaseDatabase.getInstance ().getReference ().child ("Users").child(currentUserID);
-
+        String phone;
         usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                 if(snapshot.exists()){
                     if(snapshot.hasChild("phonenumber")){
-                       final  String phonenumber = Objects.requireNonNull(snapshot.child("phonenumber").getValue()).toString();
+                       String phonenumber = Objects.requireNonNull(snapshot.child("phonenumber").getValue()).toString();
+                        phonenumber = "+27"+phonenumber;
                         startPhoneNumberVerification(phonenumber);
                     }
                 }
@@ -132,12 +138,41 @@ public class ConfirmationCodeFragment extends Fragment {
 
         TextInputEditText confirmationCode = view.findViewById(R.id.confirmation_code);
         Button next = view.findViewById(R.id.next);
+        resend = view.findViewById(R.id.resend);
+        resend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                        if(snapshot.exists()){
+                            if(snapshot.hasChild("phonenumber")){
+                                String phonenumber = Objects.requireNonNull(snapshot.child("phonenumber").getValue()).toString();
+                                phonenumber = "+27"+phonenumber;
+                                resendVerificationCode(phonenumber,mResendToken);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                    }
+                });
+
+            }
+        });
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String code = Objects.requireNonNull(confirmationCode.getText()).toString().trim();
-                verifyPhoneNumberWithCode(mVerificationId,code);
-                Navigation.findNavController(view).navigate(R.id.action_nav_confirmation_code_to_nav_choose_product);
+                if(TextUtils.isEmpty(code)){
+                    Toast.makeText(requireContext(),"Please type the confirmation code", Toast.LENGTH_LONG).show();
+                }else{
+                    verifyPhoneNumberWithCode(mVerificationId,code);
+                    Navigation.findNavController(view).navigate(R.id.action_nav_confirmation_code_to_nav_choose_product);
+                }
+
             }
         });
 

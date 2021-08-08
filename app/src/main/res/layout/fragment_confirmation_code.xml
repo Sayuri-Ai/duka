@@ -46,7 +46,7 @@
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/confirmation_code"
+                android:id="@+id/confirmation_code_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -56,6 +56,7 @@
                 android:hint="@string/confirmation_code">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/confirmation_code"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -67,13 +68,21 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/Next"
+            android:id="@+id/next"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:text="@string/next" />
+        <TextView
+            android:layout_marginTop="16dp"
+            android:textColor="@color/froly"
+            android:gravity="center"
+            android:id="@+id/resend"
+            android:layout_width="match_parent"
+            android:text="@string/resend_verification_code"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 </FrameLayout>

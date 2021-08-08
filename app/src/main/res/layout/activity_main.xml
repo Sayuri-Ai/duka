@@ -7,19 +7,20 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
+
     <include
         layout="@layout/custom_app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/navigation_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@color/froly"
-        app:itemTextColor="@color/white"
         android:fitsSystemWindows="true"
         app:itemIconTint="@color/white"
-        app:menu="@menu/navigation_menu">
-    </com.google.android.material.navigation.NavigationView>
+        app:itemTextColor="@color/white"
+        app:menu="@menu/navigation_menu"/>
 </androidx.drawerlayout.widget.DrawerLayout>
