@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             String myProfileImage = Objects.requireNonNull(dataSnapshot.child("profileimage").getValue()).toString();
                             Glide.with(getApplicationContext())
                                     .load(myProfileImage)
-                                    .placeholder(R.drawable.avatar)
+                                    .placeholder(R.drawable.profile)
                                     .into(NavProfileImage);
                         }
                         if (dataSnapshot.hasChild("firstname")) {

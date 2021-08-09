@@ -74,4 +74,6 @@
     <string name="new_catalog">New Item</string>
     <string name="R_cost">R</string>
     <string name="sample_cost_value">450</string>
+    <string name="book">Deep Learning</string>
+    <string name="intro">Introductory Statistics</string>
 </resources>
