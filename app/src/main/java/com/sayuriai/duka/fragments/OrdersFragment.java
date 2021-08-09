@@ -1,14 +1,40 @@
 package com.sayuriai.duka.fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.sayuriai.duka.R;
+import com.sayuriai.duka.adapters.OrdersAdapter;
+import com.sayuriai.duka.models.Order;
+import com.sayuriai.duka.models.User;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +51,15 @@ public class OrdersFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private List<Order> ordersList = new ArrayList<>();
+    private DatabaseReference ordersRef;
+    private FirebaseAuth mAuth;
+    private String currentUserID;
+    private OrdersAdapter ordersAdapter;
+    private Activity activity;
+    private LinearLayout no_order;
+    private RecyclerView recyclerView;
+
 
     public OrdersFragment() {
         // Required empty public constructor
@@ -62,5 +97,96 @@ public class OrdersFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_orders, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        mAuth = FirebaseAuth.getInstance();
+        currentUserID = mAuth.getUid();
+        assert currentUserID != null;
+
+        ordersRef =  FirebaseDatabase.getInstance().getReference().child("Orders");
+
+        recyclerView = view.findViewById(R.id.orders_list);
+        no_order = view.findViewById(R.id.no_order_layout);
+
+        activity = getActivity();
+
+        if(ordersList.size() == 0 ){
+            getOrdersList();
+        }
+
+        ordersAdapter = new OrdersAdapter(getContext(), ordersList);
+
+        recyclerView.setHasFixedSize ( true );
+        GridLayoutManager layoutManager = new GridLayoutManager ( getContext(), 2,GridLayoutManager.VERTICAL, false );
+        recyclerView.setLayoutManager ( layoutManager );
+        recyclerView.setAdapter(ordersAdapter);
+    }
+
+    private void getOrdersList() {
+
+        ordersRef.child(currentUserID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                if (dataSnapshot.exists()) {
+                    Map<String, Object> orders = (Map<String, Object>) dataSnapshot.getValue();
+                    for (Map.Entry<String, Object> entry : orders.entrySet()) {
+                        Map singleOrder = (Map) entry.getValue();
+
+                        String order_id = Objects.requireNonNull(singleOrder.get("key")).toString();
+                        User seller = (User) Objects.requireNonNull(singleOrder.get("seller"));
+                        User buyer = (User) Objects.requireNonNull(singleOrder.get("buyer"));
+                        String date = Objects.requireNonNull(singleOrder.get("cost")).toString();
+                        Order order = new Order();
+                        order.setBuyer(buyer);
+                        order.setSeller(seller);
+                        order.setId(order_id);
+                        order.setDate(date);
+                        ordersList.add(order);
+                    }
+                    ordersAdapter.notifyDataSetChanged();
+                } else {
+                    recyclerView.setVisibility(View.GONE);
+                    no_order.setVisibility(View.VISIBLE);
+                    showLongToast("No Orders added yet");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        hideKeyboard(activity);
+
+    }
+    private static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        assert imm != null;
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    private void showShortToast(String message){
+        Toast.makeText(getActivity(),message,Toast.LENGTH_SHORT).show();
+    }
+    private void showLongToast(String message){
+        Toast.makeText(getActivity(),message,Toast.LENGTH_LONG).show();
     }
 }

@@ -6,6 +6,15 @@ public class Item {
     String cost;
     String image;
     String category;
+    String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     public Item(String id) {
         this.id = id;
