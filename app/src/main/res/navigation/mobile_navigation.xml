@@ -47,8 +47,8 @@
             android:id="@+id/action_nav_signup_to_nav_login"
             app:destination="@id/nav_login" />
         <action
-            android:id="@+id/action_nav_signup_to_nav_confirmation_code"
-            app:destination="@id/nav_confirmation_code" />
+            android:id="@+id/action_nav_signup_to_nav_home"
+            app:destination="@id/nav_home" />
     </fragment>
 
     <fragment
@@ -84,8 +84,20 @@
     <fragment
         android:id="@+id/nav_catalog"
         android:name="com.sayuriai.duka.fragments.CatalogFragment"
-        android:label="@string/catalog"
+        android:label="@string/my_catalog"
         tools:layout="@layout/fragment_catalog">
+        <action
+            android:id="@+id/action_nav_catalog_to_nav_add_to_catalog"
+            app:destination="@id/nav_add_to_catalog" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_add_to_catalog"
+        android:name="com.sayuriai.duka.fragments.AddToCatalogFragment"
+        android:label="@string/new_catalog"
+        tools:layout="@layout/fragment_add_to_catalog">
+        <action
+            android:id="@+id/action_nav_add_to_catalog_to_nav_catalog"
+            app:destination="@id/nav_catalog" />
     </fragment>
     <fragment
         android:id="@+id/nav_profile"

@@ -4,10 +4,13 @@ public class Product {
     String name;
     String id;
     String image;
-    Double original_price;
-    Double discount;
-    Double listingPrice;
+    String original_price;
+    String discount;
+    String listingPrice;
 
+    public Product(String id){
+        this.id = id;
+    }
     public Product(String name, String id) {
         this.name = name;
         this.id = id;
@@ -29,6 +32,7 @@ public class Product {
         this.id = id;
     }
 
+
     public String getImage() {
         return image;
     }
@@ -37,27 +41,27 @@ public class Product {
         this.image = image;
     }
 
-    public Double getOriginal_price() {
+    public String getOriginal_price() {
         return original_price;
     }
 
-    public void setOriginal_price(Double original_price) {
+    public void setOriginal_price(String original_price) {
         this.original_price = original_price;
     }
 
-    public Double getDiscount() {
+    public String getDiscount() {
         return discount;
     }
 
-    public void setDiscount(Double discount) {
+    public void setDiscount(String discount) {
         this.discount = discount;
     }
 
-    public Double getListingPrice() {
+    public String getListingPrice() {
         return listingPrice;
     }
 
-    public void setListingPrice(Double listingPrice) {
+    public void setListingPrice(String listingPrice) {
         this.listingPrice = listingPrice;
     }
 }

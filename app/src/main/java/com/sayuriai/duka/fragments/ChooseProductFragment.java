@@ -91,6 +91,7 @@ public class ChooseProductFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).hide();
         mAuth = FirebaseAuth.getInstance();
         currentUserID = mAuth.getUid();

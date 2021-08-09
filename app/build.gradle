@@ -70,4 +70,9 @@ dependencies {
     //Emoticions
     implementation 'androidx.emoji:emoji:1.1.0'
 
+    //cropping image
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
+
+
+
 }

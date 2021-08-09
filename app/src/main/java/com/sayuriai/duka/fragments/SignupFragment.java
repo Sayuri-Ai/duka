@@ -216,8 +216,7 @@ public class SignupFragment extends Fragment {
                                 public void onComplete(@NonNull Task task) {
                                     if (task.isSuccessful()) {
                                         //proceed to the next fragment to get OTP
-                                        Navigation.findNavController(view).navigate(R.id.action_nav_signup_to_nav_confirmation_code);
-
+                                        Navigation.findNavController(view).navigate(R.id.action_nav_signup_to_nav_home);
                                     } else {
                                         String message = task.getException().getMessage();
                                         Toast.makeText(requireContext(), "Error occurred while saving data: " + message, Toast.LENGTH_LONG).show();

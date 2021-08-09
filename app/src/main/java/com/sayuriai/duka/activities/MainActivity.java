@@ -68,8 +68,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home,R.id.nav_catalog, R.id.nav_profile,R.id.nav_settings,
-                R.id.nav_orders, R.id.nav_healthy, R.id.nav_quotes)
+                R.id.nav_home, R.id.nav_orders, R.id.nav_healthy, R.id.nav_quotes)
                 .setDrawerLayout(drawerLayout)
                 .build();
 
