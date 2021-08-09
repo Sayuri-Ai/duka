@@ -130,7 +130,9 @@ public class CatalogFragment extends Fragment {
 
         activity = getActivity();
 
-        getCatalogList();
+        if(catalogList.size() == 0 ){
+            getCatalogList();
+        }
 
         itemsAdapter = new ItemsAdapter(getContext(), catalogList);
 

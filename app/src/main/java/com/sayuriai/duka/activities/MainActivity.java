@@ -1,17 +1,24 @@
 package com.sayuriai.duka.activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.ShareActionProvider;
+import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -19,6 +26,7 @@ import android.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,7 +55,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DatabaseReference UsersRef;
     private DatabaseReference profileUserRef;
     private AppBarConfiguration mAppBarConfiguration;
-    String currentUserID;
+    private String currentUserID;
+    private BottomNavigationView bottomNavigation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView = findViewById ( R.id.navigation_view );
         drawerLayout = findViewById ( R.id.drawable_layout );
         setSupportActionBar(materialToolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled ( true );
+        getSupportActionBar ().setDisplayShowHomeEnabled(true);
         materialToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,21 +84,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .build();
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-
+        NavController navController = null;
         if (navHostFragment != null) {
-            NavController navController = navHostFragment.getNavController();
+            navController = navHostFragment.getNavController();
             AppBarConfiguration appBarConfiguration =
                     new AppBarConfiguration.Builder(navController.getGraph()).build();
             NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
             NavigationUI.setupWithNavController(navigationView, navController);
+            Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled ( true );
+            bottomNavigation = findViewById(R.id.bottom_navigation);
+            NavigationUI.setupWithNavController(bottomNavigation, navController);
         }
-
-//        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 
         View navView = navigationView.inflateHeaderView ( R.layout.navigation_view_header_layout );
         NavProfileImage = navView.findViewById ( R.id.nav_profile_image );
         NavProfileFullName =  navView.findViewById ( R.id.nav_user_full_name );
         NavProfileEmail =  navView.findViewById ( R.id.nav_user_email );
+
+        //Handle visibility of the application bottom navigation
+        assert navController != null;
+        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
+            @Override
+            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
+                if(destination.getId()== R.id.nav_home
+                        || destination.getId()== R.id.nav_orders
+                        ||destination.getId()== R.id.nav_quotes
+                        || destination.getId()== R.id.nav_healthy
+
+                ){
+                    bottomNavigation.setVisibility(View.VISIBLE);
+                }
+                else{
+                    bottomNavigation.setVisibility(View.GONE);
+                }
+            }
+        });
 
 
     }
@@ -101,29 +132,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull @NotNull MenuItem item) {
-        switch (item.getItemId()) {
-//            case R.id.nav_home:
-//                Navigation.findNavController(view).navigate(R.id.action_nav_login_to_nav_home);
-//                drawerLayout.close();
-//                //close drawer
-//                return true;
-//            case R.id.nav_profile:
-//                drawerLayout.close();
-//                    return true;
-//            case R.id.nav_catalog:
-//                drawerLayout.close();
-//                return true;
-//            case R.id.nav_settings:
-//                drawerLayout.close();
-//                return true;
-            default:
-                return false;
-        }
+
+        return false;
+
     }
 
     @Override
     public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+        assert navHostFragment != null;
+        NavController  navController = navHostFragment.getNavController();
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
@@ -178,6 +196,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 }
             });
+        }
+    }
+    /**
+     *  Inflate the menu; this adds items to the action bar if it is present.
+     * @param menu
+     * @return
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return  true;
+    }
+
+    /**
+     * Setup the main menu bar
+     * @param item
+     * @return
+     */
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.nav_home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

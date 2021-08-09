@@ -6,12 +6,24 @@
     app:startDestination="@+id/nav_home">
 
     <fragment
+        android:id="@+id/nav_edit_profile"
+        android:name="com.sayuriai.duka.fragments.EditProfileFragment"
+        android:label="@string/edit_profile"
+        tools:layout="@layout/fragment_edit_profile" >
+        <action
+            android:id="@+id/action_nav_edit_profile_to_nav_profile"
+            app:destination="@id/nav_profile" />
+    </fragment>
+
+    <fragment
         android:id="@+id/nav_home"
         android:name="com.sayuriai.duka.fragments.HomeFragment"
         android:label="@string/home"
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_nav_home_to_nav_login"
+            app:popUpTo="@+id/nav_login"
+            app:popUpToInclusive="true"
             app:destination="@id/nav_login" />
     </fragment>
 
@@ -22,6 +34,8 @@
         tools:layout="@layout/fragment_logout">
         <action
             android:id="@+id/action_nav_logout_to_nav_login"
+            app:popUpTo="@+id/nav_login"
+            app:popUpToInclusive="true"
             app:destination="@id/nav_login" />
     </fragment>
 
@@ -32,9 +46,13 @@
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_nav_login_to_nav_signup"
+            app:popUpTo="@+id/nav_signup"
+            app:popUpToInclusive="true"
             app:destination="@id/nav_signup" />
         <action
             android:id="@+id/action_nav_login_to_nav_home"
+            app:popUpTo="@+id/nav_home"
+            app:popUpToInclusive="true"
             app:destination="@id/nav_home" />
     </fragment>
 
@@ -45,9 +63,13 @@
         tools:layout="@layout/fragment_signup">
         <action
             android:id="@+id/action_nav_signup_to_nav_login"
+            app:popUpTo="@+id/nav_login"
+            app:popUpToInclusive="true"
             app:destination="@id/nav_login" />
         <action
             android:id="@+id/action_nav_signup_to_nav_home"
+            app:popUpTo="@+id/nav_home"
+            app:popUpToInclusive="true"
             app:destination="@id/nav_home" />
     </fragment>
 
@@ -104,6 +126,12 @@
         android:name="com.sayuriai.duka.fragments.ProfileFragment"
         android:label="@string/profile"
         tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_nav_profile_to_nav_edit_profile"
+            app:destination="@id/nav_edit_profile" />
+        <action
+            android:id="@+id/action_nav_profile_to_nav_settings"
+            app:destination="@id/nav_settings" />
     </fragment>
 
     <fragment

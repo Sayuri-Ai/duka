@@ -1,7 +1,11 @@
 package com.sayuriai.duka.fragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -9,6 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sayuriai.duka.R;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,5 +70,33 @@ public class ItemFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_item, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+
+        super.onViewCreated(view, savedInstanceState);
+
+        String subject, body, email_to, email_from;
+
+    }
+
+    private void sendToWhatsApp(){
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.setPackage("com.whatsapp");
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);
+    }
+    public void composeEmail(String[] addresses, String subject, String body) {
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:")); // only email apps should handle this
+        intent.putExtra(Intent.EXTRA_EMAIL, addresses);
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject);
+        intent.putExtra(Intent.EXTRA_TEXT, body);
+        if (intent.resolveActivity((requireActivity()).getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 }

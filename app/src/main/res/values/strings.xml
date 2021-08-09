@@ -76,4 +76,12 @@
     <string name="sample_cost_value">450</string>
     <string name="book">Deep Learning</string>
     <string name="intro">Introductory Statistics</string>
+    <string name="price">Price</string>
+    <string name="_450">450</string>
+    <string name="r">R</string>
+    <string name="joined">19-08-2019</string>
+    <string name="edit_profile_small">edit</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="title_">Mr.</string>
+    <string name="title_person">Title</string>
 </resources>

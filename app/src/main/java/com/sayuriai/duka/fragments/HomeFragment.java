@@ -119,7 +119,10 @@ public class HomeFragment extends Fragment {
 
             RecyclerView recyclerView = view.findViewById(R.id.catalog_list);
 
-            getCatalogList();
+
+            if(catalogList.size() == 0 ){
+                getCatalogList();
+            }
 
             itemsAdapter = new ItemsAdapter(getContext(), catalogList);
 
