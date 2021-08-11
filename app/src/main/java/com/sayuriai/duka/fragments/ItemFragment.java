@@ -7,11 +7,27 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.sayuriai.duka.R;
 
 import org.jetbrains.annotations.NotNull;
@@ -33,6 +49,14 @@ public class ItemFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private TextView item_name, item_desc, item_cost;
+    private ImageView  item_image;
+    private TextInputEditText address;
+    private Button add_to_cart;
+    private  String ITEM_ID;
+    private DatabaseReference itemsRef, usersRef, catalogRef;
+    private FirebaseAuth mAuth;
+    private String currentUserID, sellerUserID;
 
     public ItemFragment() {
         // Required empty public constructor
@@ -76,8 +100,73 @@ public class ItemFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
 
         super.onViewCreated(view, savedInstanceState);
+        assert getArguments() != null;
+        ITEM_ID = getArguments().getString("ITEM_ID");
+        mAuth = FirebaseAuth.getInstance();
+        currentUserID = mAuth.getUid();
+        assert currentUserID != null;
+        usersRef = FirebaseDatabase.getInstance().getReference().child("Users");
+        catalogRef =  FirebaseDatabase.getInstance().getReference().child("Catalog");
+        item_name = view.findViewById(R.id.product_name);
+        item_cost = view.findViewById(R.id.product_cost);
+        item_desc = view.findViewById(R.id.product_description);
+        item_image = view.findViewById(R.id.product_image);
+        address = view.findViewById(R.id.address);
+        add_to_cart = view.findViewById(R.id.add_to_cart);
 
-        String subject, body, email_to, email_from;
+        catalogRef.child(ITEM_ID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    String name = Objects.requireNonNull(snapshot.child("name").getValue()).toString();
+                    String cost = Objects.requireNonNull(snapshot.child("cost").getValue()).toString();
+                    String image = Objects.requireNonNull(snapshot.child("image").getValue()).toString();
+                    String desc = Objects.requireNonNull(snapshot.child("description").getValue()).toString();
+                    sellerUserID = Objects.requireNonNull(snapshot.child("uid").getValue()).toString();
+                    item_name.setText(name);
+                    item_cost.setText(cost);
+                    item_desc.setText(desc);
+                    Glide.with(requireContext())
+                            .load(image)
+                            .placeholder(R.drawable.sampleitem)
+                            .into(item_image);
+                }else{
+                    Toast.makeText(requireContext(),"No item with that id",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+
+        add_to_cart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(sellerUserID.equals(currentUserID)){
+                    Toast.makeText(requireContext(), "Can't purchase your items", Toast.LENGTH_LONG).show();
+                }else {
+                    String ad = address.getText().toString();
+                    if (TextUtils.isEmpty(ad)) {
+                        Toast.makeText(requireContext(), "Please type your delivery or pickup  address", Toast.LENGTH_SHORT).show();
+                    } else {
+                        usersRef.child(currentUserID).child("address").setValue(ad).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull @NotNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("ITEM_ID", ITEM_ID);
+                                    bundle.putString("SELLER_ID", sellerUserID);
+                                    Navigation.findNavController(view).navigate(R.id.action_nav_item_to_nav_checkout, bundle);
+                                }
+                            }
+                        });
+
+                    }
+                }
+            }
+        });
 
     }
 

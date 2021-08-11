@@ -24,12 +24,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.sayuriai.duka.R;
 import com.sayuriai.duka.adapters.OrdersAdapter;
+import com.sayuriai.duka.models.Item;
 import com.sayuriai.duka.models.Order;
 import com.sayuriai.duka.models.User;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -103,19 +105,18 @@ public class CompletedOrdersFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         currentUserID = mAuth.getUid();
         assert currentUserID != null;
-
         ordersRef =  FirebaseDatabase.getInstance().getReference().child("Orders");
-
-        recyclerView = view.findViewById(R.id.completed_orders_list);
-        ordersAdapter = new OrdersAdapter(getContext(), completedOrdersList);
-        no_order = view.findViewById(R.id.no_order_layout);
-
-        activity = getActivity();
 
         if(completedOrdersList.size() == 0 ){
             getOrdersList();
         }
 
+
+        recyclerView = view.findViewById(R.id.completed_orders_list);
+        ordersAdapter = new OrdersAdapter(getContext(), completedOrdersList, R.layout.all_orders_layout);
+        no_order = view.findViewById(R.id.no_order_layout);
+
+        activity = getActivity();
         recyclerView.setHasFixedSize ( true );
         GridLayoutManager layoutManager = new GridLayoutManager ( getContext(), 1,GridLayoutManager.VERTICAL, false );
         recyclerView.setLayoutManager ( layoutManager );
@@ -131,24 +132,44 @@ public class CompletedOrdersFragment extends Fragment {
                     Map<String, Object> orders = (Map<String, Object>) dataSnapshot.getValue();
                     for (Map.Entry<String, Object> entry : orders.entrySet()) {
                         Map singleOrder = (Map) entry.getValue();
-                        User buyer = (User) Objects.requireNonNull(singleOrder.get("buyer"));
-                        if(buyer.getUid().equals(currentUserID)) {
+                        HashMap<String, Object> buyer = (HashMap<String, Object>) Objects.requireNonNull(singleOrder.get("buyer"));
+                        HashMap<String, Object> seller = (HashMap<String, Object>) Objects.requireNonNull(singleOrder.get("seller"));
+                        HashMap<String, Object> item = (HashMap<String, Object>) Objects.requireNonNull(singleOrder.get("item"));
+                        if(Objects.requireNonNull(buyer.get("uid")).toString().equals(currentUserID)) {
                             String order_id = Objects.requireNonNull(singleOrder.get("key")).toString();
                             String status = Objects.requireNonNull(singleOrder.get("status")).toString();
-                            User seller = (User) Objects.requireNonNull(singleOrder.get("seller"));
-                            String date = Objects.requireNonNull(singleOrder.get("cost")).toString();
+                            String date = Objects.requireNonNull(singleOrder.get("date")).toString();
+
                             Order order = new Order();
-                            order.setBuyer(buyer);
-                            order.setSeller(seller);
                             order.setId(order_id);
                             order.setDate(date);
+                            User buyer_ = new User(Objects.requireNonNull(buyer.get("uid")).toString());
+                            User seller_ = new User(Objects.requireNonNull(seller.get("uid")).toString());
+                            order.setBuyer(buyer_);
+                            order.setSeller(seller_);
+
+
+                            Item item_ = new Item(Objects.requireNonNull(item.get("id")).toString());
+                            item_.setImage(Objects.requireNonNull(item.get("image")).toString());
+                            item_.setName(Objects.requireNonNull(item.get("name")).toString());
+                            item_.setDescription(Objects.requireNonNull(item.get("description")).toString());
+                            item_.setCost(Objects.requireNonNull(item.get("cost")).toString());
+
+                            order.setItem(item_);
+
                             if (status.toUpperCase().equals("COMPLETED")) {
                                 completedOrdersList.add(order);
                             }
                         }
 
                     }
-                    ordersAdapter.notifyDataSetChanged();
+                    if(completedOrdersList.size() == 0){
+                        recyclerView.setVisibility(View.GONE);
+                        no_order.setVisibility(View.VISIBLE);
+                        showLongToast("No completed Orders yet");
+                    }else {
+                        ordersAdapter.notifyDataSetChanged();
+                    }
                 } else {
                     recyclerView.setVisibility(View.GONE);
                     no_order.setVisibility(View.VISIBLE);

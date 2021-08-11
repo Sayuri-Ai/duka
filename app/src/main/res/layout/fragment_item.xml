@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/froly"
     tools:context=".fragments.ItemFragment">
 
     <LinearLayout
@@ -15,15 +16,13 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:checkable="true"
-            android:clickable="true"
-            android:focusable="true"
             android:padding="4dp"
             android:visibility="visible"
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="7dp"
             app:cardElevation="3dp"
             app:cardUseCompatPadding="true"
+            app:contentPaddingBottom="100dp"
             tools:ignore="MissingConstraints">
 
             <LinearLayout
@@ -37,6 +36,7 @@
                     android:orientation="horizontal">
 
                     <ImageView
+                        android:id="@+id/product_image"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -102,6 +102,7 @@
                                 android:textSize="15sp" />
 
                             <TextView
+                                android:id="@+id/product_cost"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/_450"
@@ -129,14 +130,14 @@
                             android:id="@+id/address"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="textPostalAddress"></com.google.android.material.textfield.TextInputEditText>
+                            android:inputType="textPostalAddress" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <Button
-                        android:id="@+id/place_order"
+                        android:id="@+id/add_to_cart"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/place_order" />
+                        android:text="@string/add_to_cart" />
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

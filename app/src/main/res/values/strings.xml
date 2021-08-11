@@ -91,4 +91,16 @@
     <string name="Collection">Collection</string>
     <string name="upcoming_orders">Upcoming Orders</string>
     <string name="completed_orders">Completed Orders</string>
+    <string name="add_to_cart">Add to Cart</string>
+    <string name="shipping_information">Shipping Information</string>
+    <string name="phonenumber">Phone</string>
+    <string name="payment_type">Payment</string>
+    <string name="payment_type_cash">Cash payment on delivery</string>
+    <string name="type">Type</string>
+    <string name="payment_information">Payment Information</string>
+    <string name="total">Total</string>
+    <string name="total_price">Total Price</string>
+    <string name="r_450">R450</string>
+    <string name="checkout">Checkout</string>
+    <string name="confirm_delivery">Confirm Delivery</string>
 </resources>

@@ -7,9 +7,28 @@ public class Item {
     String image;
     String category;
     String description;
+    String qty;
+    String status;
+
 
     public String getDescription() {
         return description;
+    }
+
+    public String getQty() {
+        return qty;
+    }
+
+    public void setQty(String qty) {
+        this.qty = qty;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public void setDescription(String description) {

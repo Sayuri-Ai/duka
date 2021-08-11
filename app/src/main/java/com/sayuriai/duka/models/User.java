@@ -3,13 +3,44 @@ package com.sayuriai.duka.models;
 public class User {
     String firstname;
     String surname;
+    String fullname;
     String date;
     String phone;
     String uid;
     String email;
+    String address;
+
 
     public User(String uid) {
         this.uid = uid;
+    }
+
+    public User(String fullname, String phone, String uid, String address) {
+        this.fullname = fullname;
+        this.phone = phone;
+        this.uid = uid;
+        this.address = address;
+    }
+    public User(String fullname, String phone, String uid) {
+        this.fullname = fullname;
+        this.phone = phone;
+        this.uid = uid;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
     public String getFirstname() {

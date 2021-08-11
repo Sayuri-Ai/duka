@@ -1,6 +1,7 @@
 package com.sayuriai.duka.adapters;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -61,6 +63,9 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ItemViewMode
             @Override
             public void onClick(View v) {
                 holder.card.setChecked(!holder.card.isChecked());
+                Bundle bundle = new Bundle();
+                bundle.putString("ITEM_ID", items.get(position).getId());
+                Navigation.findNavController(v).navigate(R.id.action_nav_home_to_nav_item,bundle);
             }
         });
     }
