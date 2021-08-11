@@ -82,6 +82,7 @@ public class OrdersAdapter  extends RecyclerView.Adapter<OrdersAdapter.OrderView
                 }
             });
         }
+        holder.date.setText(orders.get(position).getDate());
         holder.title.setText(orders.get(position).getItem().getName());
         holder.cost.setText(orders.get(position).getItem().getCost());
         holder.desc.setText(orders.get(position).getItem().getDescription());
@@ -101,7 +102,7 @@ public class OrdersAdapter  extends RecyclerView.Adapter<OrdersAdapter.OrderView
     static class OrderViewModel extends RecyclerView.ViewHolder{
 
 
-        TextView title, cost, desc;
+        TextView title, cost, desc,date;
         ImageView image;
         Button confirm_delivery;
         OrderViewModel(View itemView){
@@ -111,6 +112,7 @@ public class OrdersAdapter  extends RecyclerView.Adapter<OrdersAdapter.OrderView
             image = itemView.findViewById(R.id.image);
             desc  = itemView.findViewById(R.id.desc);
             confirm_delivery = itemView.findViewById(R.id.confirm_delivery);
+            date = itemView.findViewById(R.id.date);
         }
     }
 }

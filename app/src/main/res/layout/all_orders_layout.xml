@@ -3,15 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="8dp">
+    android:orientation="vertical">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="130dp"
-        app:contentPadding="8dp"
-        app:cardCornerRadius="8dp"
-        app:cardBackgroundColor="#E0FFFF">
+        android:layout_height="185dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="7dp"
+        app:cardElevation="6dp"
+        app:cardUseCompatPadding="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,6 +30,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight="2"
+                android:padding="8dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -85,19 +86,19 @@
 
                     <Button
                         android:id="@+id/confirm_delivery"
-                        android:layout_margin="8dp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
                         android:text="@string/confirm_delivery" />
                 </LinearLayout>
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/date"
                     android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@color/grey"
-                    android:orientation="vertical" />
+                    android:text="@string/date"
+                    android:textColor="#777777"
+                    android:textSize="12sp"
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 

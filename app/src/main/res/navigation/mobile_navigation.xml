@@ -22,8 +22,6 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_nav_home_to_nav_login"
-            app:popUpTo="@+id/nav_login"
-            app:popUpToInclusive="true"
             app:destination="@id/nav_login" />
         <action
             android:id="@+id/action_nav_home_to_nav_item"
@@ -37,8 +35,6 @@
         tools:layout="@layout/fragment_logout">
         <action
             android:id="@+id/action_nav_logout_to_nav_login"
-            app:popUpTo="@+id/nav_login"
-            app:popUpToInclusive="true"
             app:destination="@id/nav_login" />
     </fragment>
 
@@ -49,13 +45,9 @@
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_nav_login_to_nav_signup"
-            app:popUpTo="@+id/nav_signup"
-            app:popUpToInclusive="true"
             app:destination="@id/nav_signup" />
         <action
             android:id="@+id/action_nav_login_to_nav_home"
-            app:popUpTo="@+id/nav_home"
-            app:popUpToInclusive="true"
             app:destination="@id/nav_home" />
     </fragment>
 
@@ -66,13 +58,9 @@
         tools:layout="@layout/fragment_signup">
         <action
             android:id="@+id/action_nav_signup_to_nav_login"
-            app:popUpTo="@+id/nav_login"
-            app:popUpToInclusive="true"
             app:destination="@id/nav_login" />
         <action
             android:id="@+id/action_nav_signup_to_nav_home"
-            app:popUpTo="@+id/nav_home"
-            app:popUpToInclusive="true"
             app:destination="@id/nav_home" />
     </fragment>
 
@@ -167,8 +155,6 @@
         tools:layout="@layout/fragment_checkout" >
         <action
             android:id="@+id/action_nav_checkout_to_nav_orders"
-            app:popUpTo="@+id/nav_orders"
-            app:popUpToInclusive="true"
             app:destination="@id/nav_orders" />
     </fragment>
     <fragment

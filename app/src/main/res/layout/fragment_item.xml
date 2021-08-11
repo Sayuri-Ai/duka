@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fafafa"
     android:orientation="vertical"
-    android:background="@color/froly"
     tools:context=".fragments.ItemFragment">
 
     <LinearLayout
@@ -130,6 +130,7 @@
                             android:id="@+id/address"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:imeOptions="actionDone"
                             android:inputType="textPostalAddress" />
                     </com.google.android.material.textfield.TextInputLayout>
 

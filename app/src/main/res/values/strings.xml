@@ -103,4 +103,5 @@
     <string name="r_450">R450</string>
     <string name="checkout">Checkout</string>
     <string name="confirm_delivery">Confirm Delivery</string>
+    <string name="date">Date</string>
 </resources>

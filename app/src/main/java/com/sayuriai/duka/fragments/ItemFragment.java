@@ -1,5 +1,6 @@
 package com.sayuriai.duka.fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -57,6 +59,7 @@ public class ItemFragment extends Fragment {
     private DatabaseReference itemsRef, usersRef, catalogRef;
     private FirebaseAuth mAuth;
     private String currentUserID, sellerUserID;
+    private Activity activity;
 
     public ItemFragment() {
         // Required empty public constructor
@@ -100,6 +103,7 @@ public class ItemFragment extends Fragment {
     public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
 
         super.onViewCreated(view, savedInstanceState);
+        activity = getActivity();
         assert getArguments() != null;
         ITEM_ID = getArguments().getString("ITEM_ID");
         mAuth = FirebaseAuth.getInstance();
@@ -113,6 +117,23 @@ public class ItemFragment extends Fragment {
         item_image = view.findViewById(R.id.product_image);
         address = view.findViewById(R.id.address);
         add_to_cart = view.findViewById(R.id.add_to_cart);
+
+        usersRef.child(currentUserID).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    if(snapshot.hasChild("address")){
+                        String add = Objects.requireNonNull(snapshot.child("address").getValue()).toString();
+                        address.setText(add);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
 
         catalogRef.child(ITEM_ID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -167,6 +188,24 @@ public class ItemFragment extends Fragment {
                 }
             }
         });
+
+    }
+    private static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        assert imm != null;
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        hideKeyboard(activity);
 
     }
 

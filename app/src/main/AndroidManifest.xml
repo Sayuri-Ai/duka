@@ -3,19 +3,9 @@
     package="com.sayuriai.duka">
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <queries>
-        <!-- Specific apps you interact with, eg: -->
-        <package android:name="com.example.store" />
-        <package android:name="com.example.service" />
-        <!--
-             Specific intents you query for,
-             eg: for a custom share UI
-        -->
-        <intent>
-            <action android:name="android.intent.action.SEND" />
-            <data android:mimeType="image/jpeg" />
-        </intent>
-    </queries>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
