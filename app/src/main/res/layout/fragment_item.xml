@@ -14,7 +14,7 @@
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:layout_height="wrap_content"
             android:checkable="true"
             android:clickable="true"
             android:focusable="true"
@@ -110,29 +110,35 @@
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:layout_weight="1"
-                        android:src="@drawable/ic_baseline_chat_bubble_60"
-                        android:layout_width="wrap_content"
-                        android:background="@drawable/ic_baseline_account_balance_wallet_24"
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        />
+                        android:layout_marginBottom="8dp"
+                        android:hint="@string/address"
+                        app:startIconTint="@color/froly">
 
-                    <ImageView
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                       android:src="@drawable/ic_baseline_payment_60"
-                        android:layout_height="wrap_content"/>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPostalAddress"></com.google.android.material.textfield.TextInputEditText>
+                    </com.google.android.material.textfield.TextInputLayout>
 
+                    <Button
+                        android:id="@+id/place_order"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/place_order" />
                 </LinearLayout>
             </LinearLayout>
-
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
-
 </FrameLayout>

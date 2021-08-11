@@ -6,6 +6,15 @@ public class Order {
     User seller;
     User buyer;
     String date;
+    String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public Item getItem() {
         return item;

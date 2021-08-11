@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //YocoSDK.initialise(this);
         materialToolbar = findViewById(R.id.topAppBar);
         navigationView = findViewById ( R.id.navigation_view );
         drawerLayout = findViewById ( R.id.drawable_layout );

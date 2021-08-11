@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'
+
 }
 
 android {
@@ -72,6 +73,7 @@ dependencies {
 
     //cropping image
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
+
 
 
 

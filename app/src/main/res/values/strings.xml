@@ -85,4 +85,10 @@
     <string name="title_">Mr.</string>
     <string name="title_person">Title</string>
     <string name="desc">The book is still new and in very good condition</string>
+    <string name="place_order">Place Order</string>
+    <string name="address">Address</string>
+    <string name="delivery">Delivery</string>
+    <string name="Collection">Collection</string>
+    <string name="upcoming_orders">Upcoming Orders</string>
+    <string name="completed_orders">Completed Orders</string>
 </resources>
